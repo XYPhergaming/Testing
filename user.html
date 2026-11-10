@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en" class="light" style="scroll-behavior: smooth;">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Alibaba Premium Store</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            display: ['Playfair Display', 'Georgia', 'serif'],
+          },
+          colors: {
+            brand: {
+              50: '#faf5ff',
+              100: '#f3e8ff',
+              600: '#9333ea', 
+              700: '#7e22ce',
+            }
+          },
+          animation: {
+            'float-slow': 'float 20s ease-in-out infinite',
+            'float-medium': 'float 15s ease-in-out infinite reverse',
+            'fade-in-up': 'fadeInUp 0.6s ease-out both',
+            'blur-in': 'blurIn 0.5s ease-out forwards',
+            'scale-in': 'scaleIn 0.35s ease-out forwards',
+            'skeleton': 'shimmer 1.8s infinite',
+            'pulse-soft': 'pulseSoft 2.5s ease-in-out infinite',
+            'float-subtle': 'floatSubtle 4s ease-in-out infinite',
+            'float-bubble': 'floatBubble 3.5s ease-in-out infinite alternate',
+            'float-whatsapp': 'floatWhatsapp 3s ease-in-out infinite',
+          },
+          keyframes: {
+            float: { '0%': { transform: 'translate(0px,0px) scale(1)' }, '33%': { transform: 'translate(15px,-20px) scale(1.03)' }, '66%': { transform: 'translate(-10px,10px) scale(0.97)' }, '100%': { transform: 'translate(0px,0px) scale(1)' } },
+            fadeInUp: { '0%': { opacity: '0', transform: 'translateY(22px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+            blurIn: { '0%': { opacity: '0', filter: 'blur(8px)' }, '100%': { opacity: '1', filter: 'blur(0)' } },
+            scaleIn: { '0%': { opacity: '0', transform: 'scale(0.92)' }, '100%': { opacity: '1', transform: 'scale(1)' } },
+            shimmer: { '0%': { backgroundPosition: '-200% 0' }, '100%': { backgroundPosition: '200% 0' } },
+            pulseSoft: { '0%, 100%': { transform: 'scale(1)' }, '50%': { transform: 'scale(1.02)' } },
+            floatSubtle: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-6px)' } },
+            floatBubble: { 
+              '0%': { transform: 'translateY(0px)' }, 
+              '50%': { transform: 'translateY(-14px)' }, 
+              '100%': { transform: 'translateY(0px)' } 
+            },
+            floatWhatsapp: {
+              '0%, 100%': { transform: 'translateY(0) scale(1)', boxShadow: '0 12px 30px -5px rgba(37, 211, 102, 0.5)' },
+              '50%': { transform: 'translateY(-12px) scale(1.08)', boxShadow: '0 24px 40px -5px rgba(37, 211, 102, 0.7)' }
+            }
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..800&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  
+  <style>
+    * { box-sizing: border-box; }
+    html, body { max-width: 100vw; overflow-x: hidden; position: relative; }
+    body {
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      touch-action: manipulation;
+      margin: 0;
+      padding-top: 56px;
+      width: 100%;
+      overflow-x: hidden;
+    }
+    .font-serif { font-family: 'Playfair Display', serif; font-style: italic; }
+
+    /* PREMIUM SCROLLING REVEAL ANIMATION CONFIGURATION */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(40px) scale(0.97);
+      filter: blur(10px);
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), 
+                  transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), 
+                  filter 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform, filter;
+    }
+    .reveal-on-scroll.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0px);
+    }
+
+    a, button, input, select, textarea, .group, .cat-tab {
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                  transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                  background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                  border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                  box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                  filter 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    button:active, .cat-tab:active {
+      transform: scale(0.96) !important;
+    }
+    .hover-lift {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hover-lift:hover {
+      transform: translateY(-6px) scale(1.015);
+      box-shadow: 0 12px 28px -10px rgba(0,0,0,0.07);
+    }
+
+    .book-cover-wrap {
+      aspect-ratio: 3 / 4;
+      background-color: #f8fafc;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      display: block;
+      border: 1px solid #f1f5f9;
+      position: relative;
+    }
+    .book-cover-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .book-cover-wrap:hover .book-cover-img {
+      transform: scale(1.04);
+    }
+
+    .social-bubble {
+      width: 44px;
+      height: 44px;
+      background: #ffffff !important;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 35% 65% 55% 45% / 50% 40% 60% 50% !important;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: floatBubble 3.5s ease-in-out infinite;
+    }
+    .social-bubble:nth-child(1) { animation-delay: 0s; }
+    .social-bubble:nth-child(2) { animation-delay: 0.6s; }
+
+    .social-bubble-facebook {
+      border: 2.5px solid #00E5FF !important;
+      box-shadow: 0 0 14px rgba(0, 229, 255, 0.5) !important;
+    }
+    .social-bubble-instagram {
+      border: 2.5px solid #9C27B0 !important;
+      box-shadow: 0 0 14px rgba(156, 39, 176, 0.5) !important;
+    }
+
+    .social-bubble:hover {
+      transform: translateY(-12px) scale(1.12) !important;
+      animation-play-state: paused;
+      background: #ffffff !important;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .skeleton-bg {
+      background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.8s infinite;
+    }
+
+    @keyframes overlayOpen {
+      0% { opacity: 0; transform: translateY(30px) scale(0.96); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes overlayClose {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(30px) scale(0.96); }
+    }
+
+    .full-page-overlay {
+      position: fixed; 
+      inset: 0; 
+      z-index: 4000; 
+      background: white; 
+      display: flex; 
+      flex-direction: column; 
+      width: 100%; 
+      max-width: 100vw; 
+      height: 100%;
+      overflow: hidden;
+      opacity: 0;
+      animation: overlayOpen 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      will-change: transform, opacity;
+    }
+    .full-page-overlay.closing {
+      animation: overlayClose 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+
+    .alert-modal-container {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+    .alert-modal-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      transition: opacity 0.28s ease-out;
+    }
+    .alert-modal-bg.active {
+      opacity: 1;
+    }
+    .alert-modal-content {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      max-width: 20rem;
+      width: 100%;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      text-align: center;
+      position: relative;
+      z-index: 10;
+      opacity: 0;
+      animation: alertOpen 0.36s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    .alert-modal-content.closing {
+      animation: alertClose 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+
+    .full-page-overlay .overlay-scroll {
+      flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+    }
+    .close-btn {
+      padding: 6px 14px; background: #ef4444; color: white; border-radius: 9999px;
+      font-size: 0.75rem; font-weight: 600; border: none; cursor: pointer;
+      box-shadow: 0 4px 12px rgba(239,68,68,0.25);
+    }
+    .cat-tab {
+      padding: 5px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 500;
+      cursor: pointer; background: #f3f4f6; color: #4b5563; white-space: nowrap;
+    }
+    .cat-tab.active { background: #1f2937; color: white; }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    @media (max-width: 640px) {
+      body { padding-top: 56px; }
+      header { height: 56px; }
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-900 select-none">
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, getDocs, doc, getDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyALYouem_Vn174JpZG0iyzK2la_zfWLpII",
+  authDomain: "testing-1-c9082.firebaseapp.com",
+  databaseURL: "https://testing-1-c9082-default-rtdb.firebaseio.com",
+  projectId: "testing-1-c9082",
+  storageBucket: "testing-1-c9082.firebasestorage.app",
+  messagingSenderId: "837056619287",
+  appId: "1:837056619287:web:62a3fa0b91b73e7907cd52",
+  measurementId: "G-8HRMFTF6RT"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const whatsappNumber = '911234567890';
+
+let products = [], categories = [], categoryMap = {}, activeCategory = 'all';
+let revealObserver = null;
+
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => document.querySelectorAll(s);
+
+function formatPrice(p) { return '$' + Number(p).toFixed(2); }
+function discountPercent(o,c) { if(!o||o<=c) return null; return Math.round(((o-c)/o)*100); }
+
+function getStockDisplay(stock) {
+  if (stock === undefined || stock === null || stock === '' || stock === 0) {
+    return '∞';
+  }
+  return stock;
+}
+
+async function fetchCollection(colName) { 
+  const snap = await getDocs(query(collection(db, colName), orderBy('createdAt', 'desc'))); 
+  return snap.docs.map(d=>({id:d.id,...d.data()})); 
+}
+
+async function loadAllData() {
+  try {
+    const [p, c] = await Promise.all([fetchCollection('products'), fetchCollection('categories')]);
+    products = p; categories = c;
+    categories.forEach(cat => categoryMap[cat.id] = cat.name);
+    await loadFooterSocials();
+  } catch(e) { console.error(e); }
+  document.body.classList.add('ready');
+  renderMainView();
+  observeReveal();
+}
+
+async function loadFooterSocials() {
+  const container = $('#footer-social-container');
+  
+  const floatingWaBtn = $('#whatsapp-btn');
+  if (floatingWaBtn) {
+    floatingWaBtn.href = `https://wa.me/${whatsappNumber}`;
+  }
+
+  try {
+    const sSnap = await getDoc(doc(db, 'settings', 'socials'));
+    if (sSnap.exists()) {
+      const data = sSnap.data();
+      if (container) {
+        let html = '';
+        if (data.facebook) {
+          html += `<a href="${data.facebook}" target="_blank" class="social-bubble social-bubble-facebook" aria-label="Facebook"><i class="fab fa-facebook-f text-black"></i></a>`;
+        }
+        if (data.instagram) {
+          html += `<a href="${data.instagram}" target="_blank" class="social-bubble social-bubble-instagram" aria-label="Instagram"><i class="fab fa-instagram text-black"></i></a>`;
+        }
+        container.innerHTML = html;
+      }
+    }
+  } catch (err) {
+    console.error('Error rendering socials: ', err);
+  }
+}
+
+window.closeOverlay = function(overlayElement) {
+  if (!overlayElement) return;
+  overlayElement.classList.add('closing');
+  const onAnimationEnd = (e) => {
+    if (e.target === overlayElement) {
+      overlayElement.remove();
+      if (!document.querySelector('.full-page-overlay')) {
+        document.body.style.overflow = '';
+      }
+      overlayElement.removeEventListener('animationend', onAnimationEnd);
+    }
+  };
+  overlayElement.addEventListener('animationend', onAnimationEnd);
+  setTimeout(() => {
+    if (overlayElement.parentNode) {
+      overlayElement.remove();
+      if (!document.querySelector('.full-page-overlay')) {
+        document.body.style.overflow = '';
+      }
+    }
+  }, 360);
+};
+
+function productCard(product) {
+  const disc = discountPercent(product.originalPrice, product.price);
+  return `
+  <div class="group cursor-pointer reveal-on-scroll hover-lift text-center" onclick="window.goToProductDetail('${product.id}')">
+    <div class="book-cover-wrap mb-1.5 shadow-sm">
+      <img src="${product.image||''}" alt="${product.name}" class="book-cover-img" onerror="this.style.display='none';this.parentElement.style.background='#F3F0FF';" loading="lazy">
+      ${product.badge?`<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded-full bg-white/90 backdrop-blur-sm text-[8px] font-bold uppercase text-gray-900">${product.badge}</span>`:''}
+      ${disc ? `<span class="absolute top-1 right-1 px-1.5 py-0.5 rounded-full bg-red-500 text-white text-[8px] font-bold">-${disc}%</span>` : ''}
+    </div>
+    <div class="space-y-0.5 px-0.5">
+      <h3 class="text-[11px] sm:text-xs font-semibold text-gray-900 line-clamp-1 group-hover:text-purple-600 transition-colors">${product.name}</h3>
+      <p class="text-[10px] text-gray-400 font-medium">${product.author || 'Premium Fabric'}</p>
+      <div class="flex items-center justify-center gap-1.5">
+        <span class="font-bold text-xs sm:text-sm text-gray-900">${formatPrice(product.price)}</span>
+        ${product.originalPrice > product.price ? `<span class="text-[9px] text-gray-400 line-through">${formatPrice(product.originalPrice)}</span>` : ''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function applyStaggerDelay() {
+  const items = document.querySelectorAll('.reveal-on-scroll:not(.is-visible)');
+  items.forEach((el, index) => {
+    el.style.transitionDelay = (index * 0.04) + 's';
+  });
+}
+
+function filterProducts(catId) {
+  activeCategory = catId;
+  const grid = $('#products-grid'); if (!grid) return;
+  
+  let filtered = catId === 'all' ? products : products.filter(p => p.category === catId);
+
+  const sorted = [...filtered].sort((a,b) => (b.reviews||0) - (a.reviews||0));
+  grid.innerHTML = sorted.length ? sorted.map(p => productCard(p)).join('') : '<p class="col-span-full text-center text-gray-400 py-8 text-sm">No apparel found</p>';
+  applyStaggerDelay();
+  observeReveal();
+}
+
+function renderMainView() {
+  const main = $('#main-content');
+  main.innerHTML = `
+  <section class="relative w-full rounded-2xl sm:rounded-3xl h-[280px] sm:h-[480px] lg:h-[580px] overflow-hidden mt-2 shadow-lg ring-1 ring-black/5 isolate reveal-on-scroll">
+    <div class="absolute inset-0 bg-[#F3F0FF] overflow-hidden">
+      <div class="absolute top-[-15%] right-[-10%] w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] rounded-full bg-gradient-to-b from-purple-300 via-indigo-300 to-transparent blur-[100px] opacity-60 animate-float-slow mix-blend-multiply"></div>
+      <div class="absolute bottom-[-10%] left-[-10%] w-[250px] sm:w-[450px] h-[250px] sm:h-[450px] rounded-full bg-gradient-to-tr from-violet-400 via-fuchsia-200 to-blue-200 blur-[80px] opacity-50 animate-float-medium mix-blend-multiply"></div>
+    </div>
+    <div class="absolute inset-0 flex items-center justify-center text-center px-4">
+      <div class="max-w-md sm:max-w-xl">
+        <h1 class="text-2xl sm:text-4xl lg:text-5xl font-semibold text-gray-900 tracking-tighter mb-3">Your Premier Fashion & Clothing Haven</h1>
+        <p class="text-xs sm:text-base text-gray-600 max-w-xs sm:max-w-lg mx-auto mb-5">Selected premium clothing and traditional collections direct to your wardrobe.</p>
+        <a href="#products" class="inline-flex items-center gap-2.5 bg-white text-gray-900 pl-6 pr-4 py-2.5 rounded-full shadow-lg hover:scale-105 transition-transform active:scale-95">
+          <span class="text-sm sm:text-base font-extrabold tracking-tight">Shop Collection</span>
+          <div class="flex items-center justify-center">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-800">
+              <g>
+                <animateTransform
+                  attributeName="transform"
+                  type="translate"
+                  values="0 0; 4 0; 0 0"
+                  dur="1.2s"
+                  repeatCount="indefinite"
+                />
+                <path
+                  d="M16 10L32 24L16 38"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+            </svg>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+  
+  <section id="products" class="mt-10 sm:mt-14 reveal-on-scroll">
+    <h2 class="text-lg sm:text-2xl font-semibold text-gray-900 mb-3">Discover Collection</h2>
+    
+    <div class="mb-5 relative">
+      <input type="text" id="product-search" placeholder="Search by apparel name, fabric or keywords..." class="w-full px-4 py-3 pr-10 border border-gray-100 bg-gray-50/50 rounded-2xl text-xs outline-none cursor-pointer" readonly>
+      <span class="absolute right-3.5 top-3.5 text-gray-400">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </span>
+    </div>
+
+    <div class="flex flex-nowrap gap-1.5 mb-4 overflow-x-auto no-scrollbar pb-1 w-full" id="category-tabs">
+      <span class="cat-tab active" data-cat="all">All</span>
+      ${categories.map(c => `<span class="cat-tab" data-cat="${c.id}">${c.name}</span>`).join('')}
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2 sm:gap-4" id="products-grid"></div>
+  </section>
+
+  <section id="location-map" class="mt-14 sm:mt-20 reveal-on-scroll flex flex-col items-center justify-center w-full">
+    <div class="mb-5 text-center w-full flex flex-col items-center justify-center px-4">
+      <h2 class="text-lg sm:text-2xl font-semibold text-gray-900 font-serif text-center">Visit Our Store</h2>
+      <p class="text-xs text-gray-500 mt-1 text-center max-w-lg leading-relaxed">Find us easily on the map below for high quality clothing and premium fabric vibes.</p>
+    </div>
+    <div class="w-full h-[280px] sm:h-[420px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border border-gray-100">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29556.527320676112!2d87.96963542398528!3d22.180589745212863!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a02ed0af0f7b7b5%3A0x3f557df2fd03509f!2sMahishadal%2C%20West%20Bengal%2C%20India!5e0!3m2!1sen!2sus!4v1780079179961!5m2!1sen!2sus" 
+        class="w-full h-full border-0" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </section>
+  `;
+
+  const tabs = $$('.cat-tab');
+  tabs.forEach(tab => {
+    tab.onclick = (e) => {
+      e.preventDefault();
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      filterProducts(tab.dataset.cat);
+    };
+  });
+
+  const searchInput = $('#product-search');
+  if (searchInput) {
+    searchInput.onclick = (e) => { e.preventDefault(); window.openSearchOverlay(); };
+    searchInput.onfocus = (e) => { e.preventDefault(); searchInput.blur(); window.openSearchOverlay(); };
+  }
+
+  filterProducts('all');
+  observeReveal();
+}
+
+// ── SEARCH OVERLAY ──
+window.openSearchOverlay = function() {
+  const existing = document.querySelector('#search-overlay-page'); if (existing) existing.remove();
+  const overlay = document.createElement('div'); overlay.id = 'search-overlay-page'; overlay.className = 'full-page-overlay';
+  
+  overlay.innerHTML = `
+  <div class="flex flex-col h-full w-full max-w-2xl mx-auto bg-white">
+    <div class="flex items-center gap-3 px-5 py-4 border-b bg-white sticky top-0 z-10">
+      <div class="relative flex-1">
+        <input id="overlay-search-input" type="text" placeholder="Search clothes by name, fabric or style..." class="w-full px-4 py-3 pr-10 border border-purple-100 bg-purple-50/20 rounded-2xl text-xs focus:ring-2 focus:ring-purple-600/20 focus:border-purple-600 outline-none transition-all">
+        <span class="absolute right-3.5 top-3.5 text-gray-400">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </span>
+      </div>
+      <button id="close-search-overlay" class="close-btn">Close</button>
+    </div>
+    
+    <div id="overlay-search-results-area" class="flex-1 overflow-y-auto p-5 bg-white">
+      <div id="overlay-search-results-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
+    </div>
+  </div>`;
+  
+  document.body.appendChild(overlay); document.body.style.overflow = 'hidden';
+  
+  const closeBtn = overlay.querySelector('#close-search-overlay');
+  closeBtn.onclick = () => { window.closeOverlay(overlay); };
+  
+  const input = overlay.querySelector('#overlay-search-input');
+  const grid = overlay.querySelector('#overlay-search-results-grid');
+  
+  input.focus();
+  
+  input.oninput = () => {
+    const queryStr = input.value.trim().toLowerCase();
+    if (!queryStr) {
+      grid.innerHTML = '';
+      return;
+    }
+    const filtered = products.filter(p => 
+      (p.name && p.name.toLowerCase().includes(queryStr)) ||
+      (p.author && p.author.toLowerCase().includes(queryStr)) ||
+      (p.desc && p.desc.toLowerCase().includes(queryStr))
+    );
+    
+    if (filtered.length === 0) {
+      grid.innerHTML = `<p class="col-span-full text-center text-gray-400 py-8 text-xs">No matching apparel found</p>`;
+    } else {
+      grid.innerHTML = filtered.map(p => {
+        const disc = discountPercent(p.originalPrice, p.price);
+        return `
+        <div class="group cursor-pointer hover-lift text-center opacity-0 animate-fade-in-up" onclick="window.goToProductDetail('${p.id}')">
+          <div class="book-cover-wrap mb-1.5 shadow-sm">
+            <img src="${p.image||''}" alt="${p.name}" class="book-cover-img" onerror="this.style.display='none';this.parentElement.style.background='#F3F0FF';" loading="lazy">
+            ${p.badge?`<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded-full bg-white/90 backdrop-blur-sm text-[8px] font-bold uppercase text-gray-900">${p.badge}</span>`:''}
+            ${disc ? `<span class="absolute top-1 right-1 px-1.5 py-0.5 rounded-full bg-red-500 text-white text-[8px] font-bold">-${disc}%</span>` : ''}
+          </div>
+          <div class="space-y-0.5 px-0.5">
+            <h3 class="text-[10px] sm:text-xs font-semibold text-gray-900 line-clamp-1">${p.name}</h3>
+            <p class="text-[9px] text-gray-400 font-medium">${p.author || 'Premium Collection'}</p>
+            <div class="flex items-center justify-center gap-1.5">
+              <span class="font-bold text-xs sm:text-sm text-gray-900">${formatPrice(p.price)}</span>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+  };
+  
+  input.onkeydown = (e) => {
+    if (e.key === 'Enter') {
+      const queryStr = input.value.trim().toLowerCase();
+      if (!queryStr) return;
+      openSearchResultsPage(queryStr);
+      overlay.remove();
+    }
+  };
+};
+
+window.openSearchResultsPage = function(queryStr) {
+  const existing = document.querySelector('#search-results-page'); if (existing) existing.remove();
+  const overlay = document.createElement('div'); overlay.id = 'search-results-page'; overlay.className = 'full-page-overlay';
+  
+  const filtered = products.filter(p => 
+    (p.name && p.name.toLowerCase().includes(queryStr)) ||
+    (p.author && p.author.toLowerCase().includes(queryStr)) ||
+    (p.desc && p.desc.toLowerCase().includes(queryStr))
+  );
+  const safeQueryStr = queryStr.replace(/[&<>"']/g, (ch) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[ch]));
+  
+  overlay.innerHTML = `
+  <div class="flex flex-col h-full w-full max-w-2xl mx-auto bg-white">
+    <div class="flex items-center justify-between px-5 py-4 border-b bg-white sticky top-0 z-10">
+      <h2 class="text-xs font-bold uppercase text-gray-400 tracking-wider">Search Results for: "${safeQueryStr}"</h2>
+      <button id="close-results-overlay" class="close-btn">Close</button>
+    </div>
+    <div class="overlay-scroll p-5">
+      <div id="results-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        ${filtered.length ? filtered.map(p => {
+          const disc = discountPercent(p.originalPrice, p.price);
+          return `
+          <div class="group cursor-pointer hover-lift text-center" onclick="window.goToProductDetail('${p.id}')">
+            <div class="book-cover-wrap mb-1.5 shadow-sm">
+              <img src="${p.image||''}" alt="${p.name}" class="book-cover-img" onerror="this.style.display='none';this.parentElement.style.background='#F3F0FF';" loading="lazy">
+              ${p.badge?`<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded-full bg-white/90 backdrop-blur-sm text-[8px] font-bold uppercase text-gray-900">${p.badge}</span>`:''}
+              ${disc ? `<span class="absolute top-1 right-1 px-1.5 py-0.5 rounded-full bg-red-500 text-white text-[8px] font-bold">-${disc}%</span>` : ''}
+            </div>
+            <div class="space-y-0.5 px-0.5">
+              <h3 class="text-[10px] sm:text-xs font-semibold text-gray-900 line-clamp-1">${p.name}</h3>
+              <p class="text-[9px] text-gray-400 font-medium">${p.author || 'Premium Collection'}</p>
+              <div class="flex items-center justify-center gap-1.5">
+                <span class="font-bold text-xs sm:text-sm text-gray-900">${formatPrice(p.price)}</span>
+                ${p.originalPrice > p.price ? `<span class="text-[9px] text-gray-400 line-through">${formatPrice(p.originalPrice)}</span>` : ''}
+              </div>
+            </div>
+          </div>`;
+        }).join('') : '<p class="col-span-full text-center text-gray-400 py-12 text-xs">No matching clothes found</p>'}
+      </div>
+    </div>
+  </div>`;
+  
+  document.body.appendChild(overlay); document.body.style.overflow = 'hidden';
+  overlay.querySelector('#close-results-overlay').onclick = () => { window.closeOverlay(overlay); };
+};
+
+// ── PRODUCT DETAILS OVERLAY ──
+window.goToProductDetail = function(id) {
+  const product = products.find(p => p.id === id); if (!product) return;
+  const disc = discountPercent(product.originalPrice, product.price);
+  const existing = document.querySelector('.full-page-overlay'); if (existing) existing.remove();
+  const overlay = document.createElement('div'); overlay.className = 'full-page-overlay';
+
+  const sizes = product.sizes || ['S', 'M', 'L', 'XL', 'XXL'];
+  const colors = product.colors || ['Red', 'Blue', 'Green', 'Black'];
+  
+  const related = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
+  let relatedHtml = '';
+  
+  if (related.length > 0) {
+    relatedHtml = `
+    <div class="border-t pt-6 mt-6">
+      <h3 class="text-sm font-bold text-gray-900 font-serif mb-4 text-center sm:text-left">Related Collections</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="related-products-grid">
+        ${related.map(p => {
+          const rDisc = discountPercent(p.originalPrice, p.price);
+          return `
+          <div class="group cursor-pointer hover-lift text-center bg-gray-50/50 p-2 rounded-xl border border-gray-100" data-rid="${p.id}">
+            <div class="book-cover-wrap mb-1.5 shadow-sm">
+              <img src="${p.image||''}" alt="${p.name}" class="book-cover-img" onerror="this.parentElement.style.background='#F3F0FF';">
+              ${rDisc ? `<span class="absolute top-1 right-1 px-1.5 py-0.5 rounded bg-red-500 text-white text-[7px] font-bold">-${rDisc}%</span>` : ''}
+            </div>
+            <h4 class="text-[10px] font-semibold text-gray-900 truncate">${p.name}</h4>
+            <p class="text-[9px] text-gray-400 truncate">${p.author || 'Premium'}</p>
+            <p class="text-xs font-bold text-gray-900 mt-0.5">${formatPrice(p.price)}</p>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }
+  
+  overlay.innerHTML = `
+  <div class="flex flex-col h-full w-full max-w-2xl mx-auto bg-white animate-scale-in">
+    <div class="flex items-center justify-between px-5 py-4 border-b bg-white sticky top-0 z-10">
+      <h2 class="text-base font-bold text-gray-900">Apparel Details</h2>
+      <button id="close-product-overlay" class="close-btn">Close</button>
+    </div>
+    
+    <div class="overlay-scroll pb-10 px-6">
+      <div class="max-w-[280px] sm:max-w-[340px] mx-auto mt-6">
+        <div class="book-cover-wrap shadow-md border border-gray-100/50">
+          <img src="${product.image||''}" alt="${product.name}" class="book-cover-img" loading="lazy">
+        </div>
+      </div>
+      <div class="py-6 space-y-5 text-left">
+        <div>
+          <h1 class="text-xl sm:text-2xl font-serif font-bold text-gray-900 leading-snug">${product.name}</h1>
+        </div>
+        <div class="flex flex-wrap items-baseline gap-2">
+          <span class="text-2xl font-bold text-gray-900">${formatPrice(product.price)}</span>
+          ${product.originalPrice > product.price ? `<span class="text-base text-gray-400 line-through">${formatPrice(product.originalPrice)}</span>` : ''}
+          ${disc ? `<span class="text-xs font-semibold text-red-500 bg-red-50 px-2 py-0.5 rounded-full">-${disc}%</span>` : ''}
+        </div>
+        <div class="grid grid-cols-2 gap-4 border-t pt-4 text-xs">
+          <div>
+            <p class="font-bold text-gray-400 uppercase tracking-wide">Brand / Fabric</p>
+            <p class="font-semibold text-slate-800 mt-0.5">${product.author || 'Premium Fabric'}</p>
+          </div>
+          <div>
+            <p class="font-bold text-gray-400 uppercase tracking-wide">Available Stock</p>
+            <p class="font-semibold text-slate-800 mt-0.5">${getStockDisplay(product.stock)}</p>
+          </div>
+        </div>
+
+        <div class="border-t pt-4">
+          <p class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Select Size</p>
+          <div class="flex flex-wrap gap-2" id="detail-size-selector">
+            ${sizes.map((s, idx) => `
+              <button class="size-opt px-3.5 py-2 border rounded-xl text-xs font-semibold ${idx===0?'border-purple-600 bg-purple-50 text-purple-600':'border-gray-200 text-gray-700 hover:border-gray-300'}" data-val="${s}">
+                ${s}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="border-t pt-4">
+          <p class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Select Color</p>
+          <div class="flex flex-wrap gap-2" id="detail-color-selector">
+            ${colors.map((c, idx) => `
+              <button class="color-opt px-3.5 py-2 border rounded-xl text-xs font-semibold ${idx===0?'border-purple-600 bg-purple-50 text-purple-600':'border-gray-200 text-gray-700 hover:border-gray-300'}" data-val="${c}">
+                ${c}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="border-t pt-4">
+          <p class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Description & Care</p>
+          <p class="text-xs text-gray-600 leading-relaxed">${product.desc||'No details available.'}</p>
+        </div>
+
+        ${relatedHtml}
+      </div>
+    </div>
+
+    <div class="border-t p-4 bg-white sticky bottom-0 w-full max-w-2xl mx-auto flex-shrink-0 z-20">
+      <a id="wa-inquire-link" href="https://wa.me/${whatsappNumber}" 
+         target="_blank" 
+         rel="noopener noreferrer" 
+         class="w-full py-3.5 bg-[#25D366] hover:bg-[#1ebd59] text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-md transition-all active:scale-[0.98]">
+        <i class="fab fa-whatsapp text-lg"></i>
+        <span>Inquire on WhatsApp</span>
+      </a>
+    </div>
+  </div>`;
+  
+  document.body.appendChild(overlay); document.body.style.overflow = 'hidden';
+  overlay.querySelector('#close-product-overlay').onclick = () => { window.closeOverlay(overlay); };
+
+  let selectedSize = sizes[0] || 'Default';
+  let selectedColor = colors[0] || 'Default';
+
+  const sizeBtns = overlay.querySelectorAll('.size-opt');
+  sizeBtns.forEach(btn => {
+    btn.onclick = () => {
+      sizeBtns.forEach(b => b.className = "size-opt px-3.5 py-2 border border-gray-200 text-gray-700 rounded-xl text-xs font-semibold hover:border-gray-300");
+      btn.className = "size-opt px-3.5 py-2 border border-purple-600 bg-purple-50 text-purple-600 rounded-xl text-xs font-semibold";
+      selectedSize = btn.dataset.val;
+      updateWhatsAppHref();
+    };
+  });
+
+  const colorBtns = overlay.querySelectorAll('.color-opt');
+  colorBtns.forEach(btn => {
+    btn.onclick = () => {
+      colorBtns.forEach(b => b.className = "color-opt px-3.5 py-2 border border-gray-200 text-gray-700 rounded-xl text-xs font-semibold hover:border-gray-300");
+      btn.className = "color-opt px-3.5 py-2 border border-purple-600 bg-purple-50 text-purple-600 rounded-xl text-xs font-semibold";
+      selectedColor = btn.dataset.val;
+      updateWhatsAppHref();
+    };
+  });
+
+  const waInquireBtn = overlay.querySelector('#wa-inquire-link');
+  const updateWhatsAppHref = () => {
+    const text = `Hello Alibaba! I'm interested in purchasing the following apparel:
+- Item: ${product.name}
+- Size: ${selectedSize}
+- Color: ${selectedColor}
+- Price: ${formatPrice(product.price)}
+
+Please let me know if it is currently in stock. Thank you!`;
+    waInquireBtn.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+  };
+  updateWhatsAppHref();
+
+  overlay.querySelectorAll('#related-products-grid [data-rid]').forEach(el => {
+    el.onclick = (e) => {
+      e.stopPropagation();
+      const rid = el.dataset.rid;
+      window.closeOverlay(overlay);
+      setTimeout(() => {
+        window.goToProductDetail(rid);
+      }, 300);
+    };
+  });
+};
+
+function observeReveal() {
+  if (revealObserver) revealObserver.disconnect();
+  revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+      } else {
+        entry.target.classList.remove('is-visible');
+      }
+    });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.reveal-on-scroll').forEach(el => revealObserver.observe(el));
+}
+
+function protectSiteSource() {
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('keydown', e => {
+    if (
+      e.keyCode === 123 || 
+      (e.ctrlKey && e.shiftKey && e.keyCode === 73) || 
+      (e.ctrlKey && e.shiftKey && e.keyCode === 74) || 
+      (e.ctrlKey && e.keyCode === 85)
+    ) {
+      e.preventDefault();
+      return false;
+    }
+  });
+}
+
+async function init() {
+  protectSiteSource();
+  await loadAllData();
+}
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+<!-- HEADER -->
+<header class="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100 h-14 flex items-center shadow-sm">
+  <div class="max-w-7xl mx-auto px-3 sm:px-5 w-full flex items-center justify-between">
+    <a href="#" class="text-lg sm:text-xl font-semibold tracking-tight text-black font-serif transition-opacity hover:opacity-80">Alibaba</a>
+  </div>
+</header>
+
+<!-- LOADING SKELETON -->
+<main id="main-content" class="max-w-7xl mx-auto px-3 sm:px-5 pb-20">
+  <div class="mt-2 space-y-4">
+    <div class="w-full h-[280px] sm:h-[480px] lg:h-[580px] skeleton-bg rounded-2xl sm:rounded-3xl animate-pulse"></div>
+    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2">
+      <div class="bg-[#F7F5FF] rounded-2xl overflow-hidden p-2">
+        <div class="h-28 sm:h-32 skeleton-bg rounded-xl mb-2"></div>
+        <div class="space-y-1.5">
+          <div class="h-4 skeleton-bg rounded w-3/4"></div>
+          <div class="h-3 skeleton-bg rounded w-1/2"></div>
+        </div>
+        <div class="h-8 skeleton-bg rounded-lg mt-2"></div>
+      </div>
+      <div class="bg-[#F7F5FF] rounded-2xl overflow-hidden p-2">
+        <div class="h-28 sm:h-32 skeleton-bg rounded-xl mb-2"></div>
+        <div class="space-y-1.5">
+          <div class="h-4 skeleton-bg rounded w-3/4"></div>
+          <div class="h-3 skeleton-bg rounded w-1/2"></div>
+        </div>
+        <div class="h-8 skeleton-bg rounded-lg mt-2"></div>
+      </div>
+      <div class="bg-[#F7F5FF] rounded-2xl overflow-hidden p-2">
+        <div class="h-28 sm:h-32 skeleton-bg rounded-xl mb-2"></div>
+        <div class="space-y-1.5">
+          <div class="h-4 skeleton-bg rounded w-3/4"></div>
+          <div class="h-3 skeleton-bg rounded w-1/2"></div>
+        </div>
+        <div class="h-8 skeleton-bg rounded-lg mt-2"></div>
+      </div>
+      <div class="bg-[#F7F5FF] rounded-2xl overflow-hidden p-2">
+        <div class="h-28 sm:h-32 skeleton-bg rounded-xl mb-2"></div>
+        <div class="space-y-1.5">
+          <div class="h-4 skeleton-bg rounded w-3/4"></div>
+          <div class="h-3 skeleton-bg rounded w-1/2"></div>
+        </div>
+        <div class="h-8 skeleton-bg rounded-lg mt-2"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="relative mt-16 mb-8 px-3 sm:px-5 reveal-on-scroll">
+  <div class="relative bg-[#0A0A0B] rounded-2xl sm:rounded-3xl text-white px-6 sm:px-10 py-10 sm:py-14 text-center">
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-6">
+      <div class="text-center sm:text-left">
+        <a href="#" class="text-xl font-semibold font-serif">Alibaba</a>
+        <p class="text-xs text-gray-400 mt-2">Premium Clothing & Traditional Attire Experience.</p>
+      </div>
+      
+      <div class="flex flex-row items-center justify-center gap-4 flex-nowrap my-3 w-full sm:w-auto" id="footer-social-container"></div>
+
+      <div class="flex gap-6 text-xs text-gray-400">
+        <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+        <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+      </div>
+    </div>
+    <div class="mt-8 pt-5 border-t border-white/10 text-center text-[10px] text-gray-500">
+      <p>&copy; 2026 Alibaba Store. All Rights Reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING WHATSAPP BUTTON -->
+<a id="whatsapp-btn" href="https://wa.me/911234567890" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp" class="fixed bottom-10 right-6 z-40 w-14 h-14 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 animate-float-whatsapp cursor-pointer border-2 border-white/40">
+  <i class="fab fa-whatsapp text-3xl"></i>
+</a>
+
+</body>
+</html>
